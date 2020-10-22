@@ -1,16 +1,31 @@
 # ![nfcore/test-datasets](docs/images/test-datasets_logo.png)
 Test data to be used for automated testing of the nf-core/eager archaeodiet pipeline
 
-## Introduction
+## Repository Contents
 
-nf-core is a collection of high quality Nextflow pipelines.
+The test data of nf-core/archaeodiet contains the following:
 
-## Documentation
-nf-core/test-datasets comes with documentation in the `docs/` directory:
+1. MALT (v0.5.0) database of 'Target' taxa 
+  - NC_012681.1 Coelodonta antiquitatis mitochondrion, complete genome
+  - NC_007596.2 Mammuthus primigenius mitochondrion, complete genome
+  - NC_011112.1 Ursus spelaeus mitochondrion, complete genome
+2. MALT (v0.5.0) database of 'Contaminant' taxa
+  - NC_006853.1 Bos taurus mitochondrion, complete genome
+  - NC_040970.1 Gallus gallus isolate ZJ mitochondrion, complete genome
+  - NC_012920.1 Homo sapiens mitochondrion, complete genome
 
-01. [Add a new  test dataset](https://github.com/nf-core/test-datasets/blob/master/docs/ADD_NEW_DATA.md)
-02. [Use an existing test dataset](https://github.com/nf-core/test-datasets/blob/master/docs/USE_EXISTING_DATA.md)
+## Test Data construction notes
 
-## Support
+### Databases
 
-For further information or help, don't hesitate to get in touch on our [Slack organisation](https://nf-co.re/join/slack) (a tool for instant messaging).
+FASTA files for MALT databases were downloaded from [NCBI Genome](https://www.ncbi.nlm.nih.gov/genome).
+
+MALT v0.5.0 was used to index the FASTAs for each database, using the [`megan-nucl-Jul2020.db.zip`](https://software-ab.informatik.uni-tuebingen.de/download/megan6/) taxa ID mapping file and with the following command. 
+
+```bash
+malt-build \
+-i test-datasets/databases/malt/contaminant/*.fasta \
+-s DNA -d test-datasets/databases/malt/contaminant/ \
+-t 16 \
+-mdb assets/megan-nucl-map-Jul2020.db
+```
